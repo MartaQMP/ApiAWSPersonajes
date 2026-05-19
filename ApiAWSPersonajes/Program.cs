@@ -7,8 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 //?Add?services?to?the?container. 
 
-string connectionString =
-builder.Configuration.GetConnectionString("AwsMysql");
+builder.Services.AddCors(p => p.AddPolicy("enabled", options =>
+{
+    options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
+string connectionString = builder.Configuration.GetConnectionString("AwsMysql");
 builder.Services.AddTransient<RepositoryTelevision>();
 builder.Services.AddDbContext<TelevisionContext>
 (options => options.UseMySQL(connectionString));
@@ -32,10 +36,10 @@ app.MapGet("/", context =>
     return Task.CompletedTask;
 });
 
+
+app.UseCors("corsenabled");
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
