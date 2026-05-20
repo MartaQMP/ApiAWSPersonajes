@@ -5,8 +5,6 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//?Add?services?to?the?container. 
-
 builder.Services.AddCors(p => p.AddPolicy("enabled", options =>
 {
     options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
